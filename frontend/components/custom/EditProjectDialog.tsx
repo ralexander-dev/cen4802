@@ -35,6 +35,7 @@ export default function EditProjectDialog({
   const [editTitle, setEditTitle] = useState("");
   const [editTags, setEditTags] = useState("");
   const [editDescription, setEditDescription] = useState("");
+  const [editLinkToRepo, setEditLinkToRepo] = useState("");
   const [saving, setSaving] = useState(false);
 
   // when project details change, initialize the edit fields with the project's current data
@@ -43,6 +44,7 @@ export default function EditProjectDialog({
       setEditTitle(project.title);
       setEditTags((project.tags ?? []).join(", "));
       setEditDescription(project.description ?? "");
+      setEditLinkToRepo(project.linkToRepo ?? "");
     }
   }, [project]);
 
@@ -119,6 +121,18 @@ export default function EditProjectDialog({
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ description: editDescription }),
+          })
+        );
+      }
+
+      // if link to repo has changed, push link update request to calls array
+      const oldLink = project.linkToRepo ?? "";
+      if (editLinkToRepo !== oldLink) {
+        calls.push(
+          fetch(`${API}/api/projects/${project.id}/link`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ linkToRepo: editLinkToRepo }),
           })
         );
       }
@@ -230,6 +244,20 @@ export default function EditProjectDialog({
             />
             <p className="text-xs text-muted-foreground text-right">
               {editDescription.length} / 5000
+            </p>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="edit-link-to-repo">Link to Repository</Label>
+            <Input
+              id="edit-link-to-repo"
+              value={editLinkToRepo}
+              onChange={(e) => setEditLinkToRepo(e.target.value)}
+              placeholder="https://github.com/user/repo"
+              disabled={saving}
+            />
+            <p className="text-xs text-muted-foreground">
+              Optional. Must be a valid URL if provided.
             </p>
           </div>
         </div>

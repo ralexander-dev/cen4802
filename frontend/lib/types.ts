@@ -6,6 +6,7 @@ export interface Project {
   archived: boolean;
   deleted: boolean;
   removalDate: string | null;
+  linkToRepo: string | null;
 }
 
 export interface SkippedEntry {
@@ -22,3 +23,4 @@ export interface AddProjectRequest { title: string; }
 export interface UpdateTitleRequest { title: string; }
 export interface UpdateDescriptionRequest { description: string; }
 export interface UpdateTagsRequest { tags: string[]; }
+export interface UpdateLinkRequest { linkToRepo: string | null; }

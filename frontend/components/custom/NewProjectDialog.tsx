@@ -30,12 +30,14 @@ export default function NewProjectDialog({ open, onClose, onProjectCreated }: Pr
   const [tags, setTags] = useState("");
   const [description, setDescription] = useState("");
   const [saving, setSaving] = useState(false);
+  const [linkToRepo, setLinkToRepo] = useState("");
 
   useEffect(() => {
     if (open) {
       setTitle("");
       setTags("");
       setDescription("");
+      setLinkToRepo("");
     }
   }, [open]);
 
@@ -100,6 +102,17 @@ export default function NewProjectDialog({ open, onClose, onProjectCreated }: Pr
           })
         );
       }
+      // if link to repo is provided, add PUT request to update the project's link
+      if (linkToRepo.trim()) {
+        puts.push(
+          fetch(`${API}/api/projects/${newProject.id}/link`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ linkToRepo: linkToRepo.trim() }),
+          })
+        );
+      }
+      
       // if description is provided, add PUT request to update the project's description
       if (description.trim()) {
         puts.push(
@@ -111,8 +124,8 @@ export default function NewProjectDialog({ open, onClose, onProjectCreated }: Pr
         );
       }
 
-      // if there are no tags or description to update, return early with success msg
-      if (puts.length === 0) {
+      // if there are no tags, description, or link to update, return early with success msg
+      if (puts.length === 0 && !linkToRepo.trim()) {
         onProjectCreated(newProject);
         onClose();
         toast.success("Project created.");

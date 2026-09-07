@@ -91,6 +91,7 @@ export default function ProjectsTable({ initialProjects }: { initialProjects: Pr
                   <TableHead>Title</TableHead>
                   <TableHead>Tags</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Link</TableHead>
                   <TableHead className="w-10" />
                 </TableRow>
               </TableHeader>
@@ -108,6 +109,15 @@ export default function ProjectsTable({ initialProjects }: { initialProjects: Pr
                       <TableCell className="font-medium">{project.title}</TableCell>
                       <TableCell><ProjectTagsBadge project={project} /></TableCell>
                       <TableCell><ProjectStatusBadge project={project} /></TableCell>
+                      <TableCell>
+                        {project.linkToRepo ? (
+                          <a href={project.linkToRepo} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                            {project.linkToRepo}
+                          </a>
+                        ) : (
+                          "-"
+                        )}
+                      </TableCell>
                       <TableCell>
                         <Button
                           variant="ghost"
