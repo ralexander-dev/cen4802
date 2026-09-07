@@ -122,6 +122,19 @@ public class ProjectService {
     return project;
   }
 
+  // update project link
+
+  public Project updateLink(int id, String linkToRepo) {
+    Project project = getProjectById(id);
+    String oldLink = project.getLinkToRepo();
+    project.setLinkToRepo(linkToRepo);
+    if (!validator.isValidLink(linkToRepo)) {
+      project.setLinkToRepo(oldLink);
+      throw new ValidationException("Invalid link: " + linkToRepo);
+    }
+    return project;
+  }
+
   // update project description; throws ProjectNotFoundException or ValidationException
   public Project updateDescription(int id, String description) {
     Project project = getProjectById(id);

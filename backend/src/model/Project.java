@@ -12,6 +12,7 @@ public class Project {
   private String title;
   private String description;
   private List<String> tags;
+  private String linkToRepo;
   private boolean archived;
   private boolean deleted;
   private LocalDateTime removalDate;
@@ -22,17 +23,19 @@ public class Project {
     this.title = title;
     this.description = "";
     this.tags = new ArrayList<>();
+    this.linkToRepo = "";
     this.archived = false;
     this.deleted = false;
     this.removalDate = null;
   }
 
   // full constructor to initialize a project with all fields provided
-  public Project(int id, String title, String description, List<String> tags, boolean archived, boolean deleted, LocalDateTime removalDate) {
+  public Project(int id, String title, String description, List<String> tags, String linkToRepo, boolean archived, boolean deleted, LocalDateTime removalDate) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.tags = tags;
+    this.linkToRepo = linkToRepo;
     this.archived = archived;
     this.deleted = deleted;
     this.removalDate = removalDate;
@@ -53,6 +56,10 @@ public class Project {
 
   public List<String> getTags() {
     return tags;
+  }
+
+  public String getLinkToRepo() {
+    return linkToRepo;
   }
 
   public boolean isArchived() {
@@ -82,6 +89,10 @@ public class Project {
 
   public void setTags(List<String> tags) {
     this.tags = tags;
+  }
+
+  public void setLinkToRepo(String linkToRepo) {
+    this.linkToRepo = linkToRepo;
   }
 
   public void setArchived(boolean archived) {

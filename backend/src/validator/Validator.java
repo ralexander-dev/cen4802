@@ -60,4 +60,12 @@ public class Validator {
     }
     return false;
   }
+  
+  // check for valid link
+  public boolean isValidLink(String link) {
+    if ( link != null ) {
+      return !link.isBlank() && (link.startsWith("http://") || link.startsWith("https://"));
+    }
+    return false;
+  }
 }

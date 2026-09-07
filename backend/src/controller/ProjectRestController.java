@@ -61,6 +61,12 @@ public class ProjectRestController {
     return ResponseEntity.ok(projectService.updateTitle(id, body.get("title"))); // Return OK with updated project
   }
 
+  // '/api/projects/{id}/link' - Update the link to the repository of a project by ID
+  @PutMapping("/{id}/link")
+  public ResponseEntity<Project> updateLink(@PathVariable int id, @RequestBody Map<String, String> body) {
+    return ResponseEntity.ok(projectService.updateLink(id, body.get("linkToRepo"))); // Return OK with updated project
+  }
+
   // '/api/projects/{id}/description' - Update the description of a project by ID
   @PutMapping("/{id}/description")
   public ResponseEntity<Project> updateDescription(@PathVariable int id, @RequestBody Map<String, String> body) {
