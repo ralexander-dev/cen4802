@@ -27,8 +27,7 @@ public class Validator {
   public boolean isValidTitleEntry (String title) {
     if ( title != null ) {
       return
-        !title.isBlank()
-        && title.length() <= MAX_TITLE_LEN;
+        (!title.isBlank() && title.length() <= MAX_TITLE_LEN);
     };
     return false;
   }
@@ -40,7 +39,6 @@ public class Validator {
       && isUniqueTitle(project, projects)
       && isUniqueID(project, projects);
   }
-
   // check for valid description
   public boolean isValidDescription(Project project) {
     String desc = project.getDescription();
