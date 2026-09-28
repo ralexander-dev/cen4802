@@ -97,6 +97,8 @@ public class ProjectService {
           }
         }
         project.setTags(validTags);
+        System.out.println("parts=" + parts.length + " link=[" + project.getLinkToRepo() + "]");
+        project.setLinkToRepo(parts.length > 3 ? parts[3].trim() : "");
 
         projects.add(project);
         nextId++;

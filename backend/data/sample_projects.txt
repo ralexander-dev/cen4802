@@ -1,5 +1,5 @@
-portfolio_site|my portfolio site|mine, something
-portoflio_site|this should fail|failing, testing
+portfolio_site|my portfolio site|mine, something|https://github.com
+portoflio_site|this should fail|failing, testing|https://google.com
 portfol1o_site|this should work|working, testing
 something_unique|this should work too|working, testing
 something_special|this should also work|working, testing
