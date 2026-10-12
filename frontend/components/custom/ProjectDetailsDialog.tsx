@@ -67,7 +67,17 @@ export default function ProjectDetailsDialog({ project, onClose }: Props) {
                 </div>
               </>
             )}
-          </div>
+
+            {project.creationDate && (
+              <>
+                <Separator />
+                <div className="grid grid-cols-[6rem_1fr] items-start gap-x-4 text-sm">
+                  <span className="text-muted-foreground font-medium">Creation Date</span>
+                  <span>{project.creationDate}</span>
+                </div>
+              </>
+            )}
+            </div>
         )}
 
         <DialogFooter>
