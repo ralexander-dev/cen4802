@@ -16,6 +16,7 @@ public class Project {
   private boolean archived;
   private boolean deleted;
   private LocalDateTime removalDate;
+  private LocalDateTime creationDate;
 
   // constructor to initialize a project with a title and defaults for other fields. 
   public Project(String title) {
@@ -27,10 +28,11 @@ public class Project {
     this.archived = false;
     this.deleted = false;
     this.removalDate = null;
+    this.creationDate = LocalDateTime.now();
   }
 
   // full constructor to initialize a project with all fields provided
-  public Project(int id, String title, String description, List<String> tags, String linkToRepo, boolean archived, boolean deleted, LocalDateTime removalDate) {
+  public Project(int id, String title, String description, List<String> tags, String linkToRepo, boolean archived, boolean deleted, LocalDateTime removalDate, LocalDateTime creationDate) {
     this.id = id;
     this.title = title;
     this.description = description;
@@ -39,6 +41,7 @@ public class Project {
     this.archived = archived;
     this.deleted = deleted;
     this.removalDate = removalDate;
+    this.creationDate = LocalDateTime.now();
   }
 
   // getters
@@ -60,6 +63,10 @@ public class Project {
 
   public String getLinkToRepo() {
     return linkToRepo;
+  }
+
+  public LocalDateTime getCreationDate() {
+    return creationDate;
   }
 
   public boolean isArchived() {
