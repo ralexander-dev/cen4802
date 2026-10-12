@@ -7,7 +7,7 @@ export interface Project {
   deleted: boolean;
   removalDate: string | null;
   linkToRepo: string | null;
-  creationDate: string | null;
+  //creationDate: string | null;
 }
 
 export interface SkippedEntry {

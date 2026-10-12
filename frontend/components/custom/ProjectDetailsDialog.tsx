@@ -68,7 +68,7 @@ export default function ProjectDetailsDialog({ project, onClose }: Props) {
               </>
             )}
 
-            {project.creationDate && (
+            {/* {project.creationDate && (
               <>
                 <Separator />
                 <div className="grid grid-cols-[6rem_1fr] items-start gap-x-4 text-sm">
@@ -76,7 +76,7 @@ export default function ProjectDetailsDialog({ project, onClose }: Props) {
                   <span>{project.creationDate}</span>
                 </div>
               </>
-            )}
+            )} */}
             </div>
         )}
 
