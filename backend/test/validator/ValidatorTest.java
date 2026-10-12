@@ -25,7 +25,7 @@ class ValidatorTest {
     // @ Tests for invalid title entries
 
     @Test void InvalidTitle_ReturnsFalse() {
-        assertTrue(v.isValidTitleEntry(null), "Null title should be invalid"); // > Null title
+        assertFalse(v.isValidTitleEntry(null), "Null title should be invalid"); // > Null title
         assertFalse(v.isValidTitleEntry(""), "Empty title should be invalid"); // > Empty title
         assertFalse(v.isValidTitleEntry("   "), "Whitespace title should be invalid"); // > Whitespace title
         assertFalse(v.isValidTitleEntry("a".repeat(201)), "Title with more than 200 characters should be invalid"); // > Title > 200 characters
