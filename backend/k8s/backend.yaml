@@ -13,7 +13,7 @@ spec:
       containers:
         - name: backend
           image: ghcr.io/ralexander-dev/cen4802-backend:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           readinessProbe:
