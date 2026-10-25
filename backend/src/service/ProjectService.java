@@ -14,6 +14,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+//import org.springframework.stereotype.Service;
 
 /*
   ProjectService.java
@@ -22,17 +25,20 @@ import java.io.InputStreamReader;
 */
 @Service
 public class ProjectService {
+  private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
   private List<Project> projects = new ArrayList<>();
   private Validator validator = new Validator();
   private int nextId = 1;
 
   // get all projects
   public List<Project> getAllProjects() {
+    logger.debug("Fetching all projects");
     return projects;
   }
 
   // get project by ID; throws ProjectNotFoundException if not found
   public Project getProjectById(int id) {
+    logger.debug("Fetching project with ID: {}", id);
     return projects.stream()
       .filter(p -> p.getId() == id)
       .findFirst()
@@ -41,11 +47,13 @@ public class ProjectService {
 
   // add project; throws ValidationException if title is invalid
   public Project addProject(String title) {
+    logger.debug("Adding project with title: {}", title);
     Project project = new Project(title);
     project.setId(nextId);
     if (!validator.isValidTitle(project, projects)) {
       throw new ValidationException("Invalid or duplicate title: " + title);
     }
+    logger.debug("Project added with ID: {}", project.getId());
     projects.add(project);
     nextId++;
     return project;
@@ -97,10 +105,12 @@ public class ProjectService {
           }
         }
         project.setTags(validTags);
-        System.out.println("parts=" + parts.length + " link=[" + project.getLinkToRepo() + "]");
         project.setLinkToRepo(parts.length > 3 ? parts[3].trim() : "");
+        logger.debug("Imported project: {}", project);
 
+        logger.debug("Adding project to list with ID: {}", project.getId());
         projects.add(project);
+        logger.debug("Project added to list with ID: {}", project.getId());
         nextId++;
         importedCount++;
       }
@@ -114,10 +124,12 @@ public class ProjectService {
 
   // update project title; throws ProjectNotFoundException or ValidationException
   public Project updateTitle(int id, String title) {
+    logger.debug("Updating title for project with ID: {}", id);
     Project project = getProjectById(id);
     String oldTitle = project.getTitle();
     project.setTitle(title);
     if (!validator.isValidTitleEntry(title) || !validator.isUniqueTitle(project, projects)) {
+      logger.debug("Invalid or duplicate title for project with ID: {}", id);
       project.setTitle(oldTitle);
       throw new ValidationException("Invalid or duplicate title: " + title);
     }
@@ -127,10 +139,12 @@ public class ProjectService {
   // update project link
 
   public Project updateLink(int id, String linkToRepo) {
+    logger.debug("Updating link for project with ID: {}", id);
     Project project = getProjectById(id);
     String oldLink = project.getLinkToRepo();
     project.setLinkToRepo(linkToRepo);
     if (!validator.isValidLink(linkToRepo)) {
+      logger.debug("Invalid link for project with ID: {}", id);
       project.setLinkToRepo(oldLink);
       throw new ValidationException("Invalid link: " + linkToRepo);
     }
@@ -139,10 +153,12 @@ public class ProjectService {
 
   // update project description; throws ProjectNotFoundException or ValidationException
   public Project updateDescription(int id, String description) {
+    logger.debug("Updating description for project with ID: {}", id);
     Project project = getProjectById(id);
     String oldDescription = project.getDescription();
     project.setDescription(description);
     if (!validator.isValidDescription(project)) {
+      logger.debug("Invalid description for project with ID: {}", id);
       project.setDescription(oldDescription);
       throw new ValidationException("Description exceeds maximum allowed length");
     }
@@ -151,6 +167,7 @@ public class ProjectService {
 
   // update project tags from a comma-separated string; throws ProjectNotFoundException or ValidationException
   public Project updateTags(int id, String tags) {
+    logger.debug("Updating tags for project with ID: {}", id);
     Project project = getProjectById(id);
     List<String> validTags = new ArrayList<>();
     for (String tag : tags.split(",")) {
@@ -160,14 +177,17 @@ public class ProjectService {
       }
     }
     if (validTags.isEmpty()) {
+      logger.debug("No valid tags provided for project with ID: {}", id);
       throw new ValidationException("No valid tags provided");
     }
+    logger.debug("Setting valid tags for project with ID: {}", id);
     project.setTags(validTags);
     return project;
   }
 
   // toggle archived state; throws ProjectNotFoundException
   public Project toggleArchive(int id) {
+    logger.debug("Toggling archive state for project with ID: {}", id);
     Project project = getProjectById(id);
     project.setArchived(!project.isArchived());
     return project;
@@ -175,6 +195,7 @@ public class ProjectService {
 
   // soft-delete project; throws ProjectNotFoundException or InvalidOperationException
   public Project deleteProject(int id) {
+    logger.debug("Deleting project with ID: {}", id);
     Project project = getProjectById(id);
     if (project.isDeleted()) {
       throw new InvalidOperationException("Project is already deleted");
@@ -185,10 +206,13 @@ public class ProjectService {
 
   // restore a soft-deleted project; throws ProjectNotFoundException or InvalidOperationException
   public Project restoreProject(int id) {
+    logger.debug("Restoring project with ID: {}", id);
     Project project = getProjectById(id);
     if (!project.isDeleted()) {
+      logger.debug("Project with ID: {} is not deleted, cannot restore", id);
       throw new InvalidOperationException("Project is not deleted");
     }
+    logger.debug("Restoring project with ID: {}", id);
     project.setDeleted(false);
     return project;
   }
